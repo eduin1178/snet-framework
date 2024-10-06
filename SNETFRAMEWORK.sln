@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SNET.Framework.Api", "src\SNET.Framework.Api\SNET.Framework.Api.csproj", "{587B28A9-014E-46EE-996F-445C60486392}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNET.Framework.Api", "src\SNET.Framework.Api\SNET.Framework.Api.csproj", "{587B28A9-014E-46EE-996F-445C60486392}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{75D74DBC-7386-47C9-B452-6B4A54E1AF8E}"
 EndProject
@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{5B97AA6E-5CAC-4DD4-A5AE-D3EB3937900C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SNET.Framework.Domain", "src\SNET.Framework.Domain\SNET.Framework.Domain.csproj", "{C8920801-699B-49C9-B757-3892CC84A9E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNET.Framework.Domain", "src\SNET.Framework.Domain\SNET.Framework.Domain.csproj", "{C8920801-699B-49C9-B757-3892CC84A9E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SNET.Framework.Features", "SNET.Framework.Features\SNET.Framework.Features.csproj", "{CE10D193-B7C5-4645-B7DA-A6982708D109}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNET.Framework.Features", "src\SNET.Framework.Features\SNET.Framework.Features.csproj", "{3E3E96C7-5AF0-4CDF-91E5-5332309AFF13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SNET.Framework.Persistence", "SNET.Framework.Persistence\SNET.Framework.Persistence.csproj", "{01E42056-0026-44C3-855E-1309F64D2420}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNET.Framework.Infrastructure", "src\SNET.Framework.Infrastructure\SNET.Framework.Infrastructure.csproj", "{64804C75-F432-425D-A25A-C384372B2BB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SNET.Framework.Infrastructure", "SNET.Framework.Infrastructure\SNET.Framework.Infrastructure.csproj", "{EA1BB28D-018B-4B7E-A454-0DA93A7B21A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SNET.Framework.Persistence", "src\SNET.Framework.Persistence\SNET.Framework.Persistence.csproj", "{24D5D4FE-F9E5-4320-9BD2-86194B284EB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,27 +33,27 @@ Global
 		{C8920801-699B-49C9-B757-3892CC84A9E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8920801-699B-49C9-B757-3892CC84A9E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8920801-699B-49C9-B757-3892CC84A9E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE10D193-B7C5-4645-B7DA-A6982708D109}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE10D193-B7C5-4645-B7DA-A6982708D109}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE10D193-B7C5-4645-B7DA-A6982708D109}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE10D193-B7C5-4645-B7DA-A6982708D109}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01E42056-0026-44C3-855E-1309F64D2420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01E42056-0026-44C3-855E-1309F64D2420}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01E42056-0026-44C3-855E-1309F64D2420}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01E42056-0026-44C3-855E-1309F64D2420}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA1BB28D-018B-4B7E-A454-0DA93A7B21A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA1BB28D-018B-4B7E-A454-0DA93A7B21A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA1BB28D-018B-4B7E-A454-0DA93A7B21A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA1BB28D-018B-4B7E-A454-0DA93A7B21A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E3E96C7-5AF0-4CDF-91E5-5332309AFF13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E3E96C7-5AF0-4CDF-91E5-5332309AFF13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E3E96C7-5AF0-4CDF-91E5-5332309AFF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E3E96C7-5AF0-4CDF-91E5-5332309AFF13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64804C75-F432-425D-A25A-C384372B2BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64804C75-F432-425D-A25A-C384372B2BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64804C75-F432-425D-A25A-C384372B2BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64804C75-F432-425D-A25A-C384372B2BB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D5D4FE-F9E5-4320-9BD2-86194B284EB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D5D4FE-F9E5-4320-9BD2-86194B284EB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D5D4FE-F9E5-4320-9BD2-86194B284EB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D5D4FE-F9E5-4320-9BD2-86194B284EB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C8920801-699B-49C9-B757-3892CC84A9E5} = {75D74DBC-7386-47C9-B452-6B4A54E1AF8E}
-		{CE10D193-B7C5-4645-B7DA-A6982708D109} = {CE421437-A991-45D8-BC66-4E091B5D54F4}
-		{01E42056-0026-44C3-855E-1309F64D2420} = {5B97AA6E-5CAC-4DD4-A5AE-D3EB3937900C}
-		{EA1BB28D-018B-4B7E-A454-0DA93A7B21A5} = {5B97AA6E-5CAC-4DD4-A5AE-D3EB3937900C}
+		{3E3E96C7-5AF0-4CDF-91E5-5332309AFF13} = {CE421437-A991-45D8-BC66-4E091B5D54F4}
+		{64804C75-F432-425D-A25A-C384372B2BB4} = {5B97AA6E-5CAC-4DD4-A5AE-D3EB3937900C}
+		{24D5D4FE-F9E5-4320-9BD2-86194B284EB8} = {5B97AA6E-5CAC-4DD4-A5AE-D3EB3937900C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19640B43-1C87-4465-A7C0-99ED39F42BF2}

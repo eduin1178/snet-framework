@@ -11,11 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\SNET.Framework.Domain\SNET.Framework.Domain.csproj" />
+    <Folder Include="Users\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Users\Queries\" />
+    <ProjectReference Include="..\SNET.Framework.Domain\SNET.Framework.Domain.csproj" />
   </ItemGroup>
 
 </Project>

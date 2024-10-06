@@ -14,6 +14,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SNET.Framework.Infrastructure\SNET.Framework.Infrastructure.csproj" />
     <ProjectReference Include="..\..\SNET.Framework.Persistence\SNET.Framework.Persistence.csproj" />
+    <ProjectReference Include="..\SNET.Framework.Infrastructure\SNET.Framework.Infrastructure.csproj" />
+    <ProjectReference Include="..\SNET.Framework.Persistence\SNET.Framework.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
