@@ -12,5 +12,5 @@ public abstract class Entity
         Id = id;
     }
 
-    protected Guid Id { get; private set;}
+    public Guid Id { get; private set;}
 }
