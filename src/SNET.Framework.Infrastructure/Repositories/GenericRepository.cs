@@ -10,7 +10,7 @@ namespace SNET.Framework.Infrastructure.Repositories
 {
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : Entity
     {
-        private readonly ApiDbContext _context;
+        protected readonly ApiDbContext _context;
 
         protected GenericRepository(ApiDbContext context)
         {
