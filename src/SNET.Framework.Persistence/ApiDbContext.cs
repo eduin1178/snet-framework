@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SNET.Framework.Infrastructure
+namespace SNET.Framework.Persistence
 {
     public class ApiDbContext : DbContext
     {

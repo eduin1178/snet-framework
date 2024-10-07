@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SNET.Framework.Infrastructure.Repositories
+namespace SNET.Framework.Persistence.Repositories
 {
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : Entity
     {

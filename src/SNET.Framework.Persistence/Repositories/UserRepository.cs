@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SNET.Framework.Infrastructure.Repositories
+namespace SNET.Framework.Persistence.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {

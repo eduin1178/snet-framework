@@ -8,7 +8,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SNET.Framework.Infrastructure.Configuraciones
+namespace SNET.Framework.Persistence
 {
     internal class UserConfiguration : IEntityTypeConfiguration<User>
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SNET.Framework.Infrastructure.UnitOfWork
+namespace SNET.Framework.Persistence.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
