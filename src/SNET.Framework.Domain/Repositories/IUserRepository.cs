@@ -9,6 +9,7 @@ namespace SNET.Framework.Domain.Repositories
 {
     public interface IUserRepository : IGenericRepository<User>
     {
+        Task<User> GetByIdWithRoles(Guid userId);
         Task<List<User>> GetAllAsync();
     }
 }

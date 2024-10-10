@@ -1,22 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SNET.Framework.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SNET.Framework.Persistence
+namespace SNET.Framework.Persistence;
+
+internal class UserConfiguration : IEntityTypeConfiguration<User>
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<User>
+    public void Configure(EntityTypeBuilder<User> builder)
     {
-        public void Configure(EntityTypeBuilder<User> builder)
-        {
-            builder.HasKey(e => e.Id);
+        builder.HasKey(e => e.Id);
 
-            builder.ToTable("Users");  
-        }
+        builder.ToTable("Users");
+
+        builder.HasMany(x=>x.Roles)
+            .WithOne(x=>x.User)
+            .HasForeignKey(x=>x.UserId);
     }
 }

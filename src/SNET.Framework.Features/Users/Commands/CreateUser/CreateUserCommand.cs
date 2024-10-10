@@ -1,18 +1,17 @@
 ﻿using FluentValidation;
 using MediatR;
-using SNET.Framework.Domain.Entities;
 using SNET.Framework.Domain.Shared;
 
 namespace SNET.Framework.Features.Users.Commands;
 
 public record CreateUserCommand : IRequest<Result>
 {
+    public Guid Id { get; init; }
     public string FirstName { get; init; }
     public string LastName { get; init; }
     public string Email { get; init; }
     public string Password { get; init; }
     public string PhoneNumber { get; init; }
-    public string Address { get; init; }
 }
 
 public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
@@ -29,6 +28,5 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
             .WithMessage("Mimimo 6 caracrteres");
 
         RuleFor(x => x.PhoneNumber).NotEmpty();
-        RuleFor(x => x.Address).NotEmpty();
     }
 }

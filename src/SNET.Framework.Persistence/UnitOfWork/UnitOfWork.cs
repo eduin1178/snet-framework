@@ -5,20 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SNET.Framework.Persistence.UnitOfWork
+namespace SNET.Framework.Persistence.UnitOfWork;
+
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
+    private readonly ApiDbContext _context;
+
+    public UnitOfWork(ApiDbContext context)
     {
-        private readonly ApiDbContext _context;
+        _context = context;
+    }
 
-        public UnitOfWork(ApiDbContext context)
-        {
-            this._context = context;
-        }
-
-        public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-           await _context.SaveChangesAsync(cancellationToken);
-        }
+    public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+       await _context.SaveChangesAsync(cancellationToken);
     }
 }

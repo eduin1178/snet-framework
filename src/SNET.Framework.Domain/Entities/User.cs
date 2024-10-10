@@ -1,5 +1,7 @@
-﻿using SNET.Framework.Domain.Extensions;
+﻿using SNET.Framework.Domain.DomainEvents.Users;
+using SNET.Framework.Domain.Extensions;
 using SNET.Framework.Domain.Primitives;
+using System.Net.Http.Headers;
 
 namespace SNET.Framework.Domain.Entities
 {
@@ -9,16 +11,18 @@ namespace SNET.Framework.Domain.Entities
             string firstName,
             string lastName,
             string email,
-            string address,
             string phoneNumber,
             string passwordHash) : base(id)
         {
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            Addresss = address;
-            PhoneNumber = phoneNumber;
+
             PasswordHash = passwordHash;
+
+            PhoneNumber = phoneNumber;
+
+            CreatedAt = DateTime.UtcNow;
             StatusId = 1;
         }
 
@@ -30,10 +34,15 @@ namespace SNET.Framework.Domain.Entities
         public string EmailVerificationCode { get; private set; }
 
         public string PasswordHash { get; private set; }
-        public string Addresss { get; private set; }
+        public bool ForcePasswordChange { get; private set; }
+        public string PasswordRecoveryCode { get; private set; }
+        public DateTime? PasswordRecoveryDate { get; private set; }
+
         public string PhoneNumber { get; private set; }
         public bool PhoneNumberVerified { get; private set; }
         public string PhoneNumberVerificationCode { get; private set; }
+
+        public DateTime CreatedAt { get; private set; }
         public int StatusId { get; private set; }
         public List<UserRoles> Roles { get; private set; } = new();
 
@@ -41,12 +50,13 @@ namespace SNET.Framework.Domain.Entities
             string firstName,
             string lastName,
             string email,
-            string address,
             string phoneNumber,
             string password)
         {
             var passwordHash = password.EncryptPassword();
-            return new User(id, firstName, lastName, email, address, phoneNumber, passwordHash);
+
+            
+            return new User(id, firstName, lastName, email,  phoneNumber, passwordHash);
         }
 
         public void StatusChange(int newStatus)
