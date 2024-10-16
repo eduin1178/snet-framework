@@ -396,3 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+src/SNET.Framework.Api/appsettings.Development.json
+/src/SNET.Framework.Api/appsettings.Development.json
