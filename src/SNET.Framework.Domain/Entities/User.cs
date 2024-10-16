@@ -1,7 +1,6 @@
 ﻿using SNET.Framework.Domain.DomainEvents.Users;
 using SNET.Framework.Domain.Extensions;
 using SNET.Framework.Domain.Primitives;
-using System.Net.Http.Headers;
 
 namespace SNET.Framework.Domain.Entities
 {
@@ -24,6 +23,8 @@ namespace SNET.Framework.Domain.Entities
 
             CreatedAt = DateTime.UtcNow;
             StatusId = 1;
+
+            AddDomainEvent(new UserCreatedDomainEvent(Guid.NewGuid(), id, firstName, lastName, email));
         }
 
         public string FirstName { get; private set; }
@@ -54,9 +55,16 @@ namespace SNET.Framework.Domain.Entities
             string password)
         {
             var passwordHash = password.EncryptPassword();
-
-            
             return new User(id, firstName, lastName, email,  phoneNumber, passwordHash);
+        }
+
+        public void Update(string firstName, string lastName, string email, string phoneNumber)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            PhoneNumber = phoneNumber;
+            AddDomainEvent(new UserUpdatedDomainEvent(Guid.NewGuid(), this));
         }
 
         public void StatusChange(int newStatus)

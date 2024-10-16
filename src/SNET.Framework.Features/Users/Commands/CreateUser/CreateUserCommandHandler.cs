@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using SNET.Framework.Domain.DomainEvents.Users;
 using SNET.Framework.Domain.Entities;
 using SNET.Framework.Domain.Repositories;
 using SNET.Framework.Domain.Shared;
@@ -44,8 +43,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         _userRepository.Add(user);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        user.AddDomainEvent(new UserCreatedDomainEvent(Guid.NewGuid(), request.Id, request.FirstName, request.LastName));
-
         return Result.Success("Usuario creado correctamente");
     }
 }

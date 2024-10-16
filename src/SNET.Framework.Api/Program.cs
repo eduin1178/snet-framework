@@ -2,6 +2,8 @@ using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SNET.Framework.Api.DependencyConfig;
+using SNET.Framework.Domain.Notifications.Email;
+using SNET.Framework.Infrastructure.Notifications.Email;
 using SNET.Framework.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCarter();
 
 builder.AddRepositories();
+builder.AddLogger();
+builder.AddEmailSettings();
 
 builder.Services.AddMediatR(x=>
 {
@@ -28,6 +32,8 @@ builder.Services.AddDbContext<ApiDbContext>(options =>
 }, ServiceLifetime.Scoped);
 
 builder.Services.AddValidatorsFromAssembly(typeof(SNET.Framework.Features.AssemblyReference).Assembly, ServiceLifetime.Scoped);
+
+builder.Services.AddScoped<IEmailNotifications, SmtpNotifications>();
 
 var app = builder.Build();
 
