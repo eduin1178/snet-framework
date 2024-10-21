@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Framework.ServiceDefaults\Framework.ServiceDefaults.csproj" />
     <ProjectReference Include="..\SNET.Framework.Infrastructure\SNET.Framework.Infrastructure.csproj" />
     <ProjectReference Include="..\SNET.Framework.Persistence\SNET.Framework.Persistence.csproj" />
   </ItemGroup>

@@ -1,10 +1,6 @@
 using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using OpenTelemetry.Logs;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 using SNET.Framework.Api.DependencyConfig;
 using SNET.Framework.Api.Metrics;
 using SNET.Framework.Domain.Notifications.Email;
@@ -13,51 +9,55 @@ using SNET.Framework.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.AddServiceDefaults();
+
 builder.Services.AddCarter();
 
 builder.AddRepositories();
-//builder.AddLogger();
+builder.AddLogger();
 builder.AddEmailSettings();
 
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resources =>
-    {
-        resources.AddService(builder.Configuration["OpenTelemetry:ServiceName"]);
-    })
-    .WithMetrics(metrics=>
-    {
-        //metrics.AddMeter(
-        //    "Microsft.AspNetCore.Hosting",
-        //    "Microsoft.AspNetCore.Server.Kestrel",
-        //    "System.Net.Http");
+//builder.Services.AddOpenTelemetry()
+//    .ConfigureResource(resources =>
+//    {
+//        resources.AddService(builder.Configuration["OpenTelemetry:ServiceName"]);
+//    })
+//    .WithMetrics(metrics=>
+//    {
+//        //metrics.AddMeter(
+//        //    "Microsft.AspNetCore.Hosting",
+//        //    "Microsoft.AspNetCore.Server.Kestrel",
+//        //    "System.Net.Http");
 
-        metrics
-            .AddAspNetCoreInstrumentation()
-            .AddHttpClientInstrumentation();
+//        metrics
+//            .AddAspNetCoreInstrumentation()
+//            .AddHttpClientInstrumentation();
 
-        metrics.AddMeter(CountHomeRequest.Metrica.Name);
+//        metrics.AddMeter(CountHomeRequest.Metrica.Name);
 
-        //metrics.AddOtlpExporter(x=>x.Endpoint = new Uri("http://aspire.dashboard:18889"));
-        metrics.AddOtlpExporter()
-        .AddPrometheusExporter();
-    })
-    .WithTracing( tracing =>
-    {
-        tracing
-            .AddAspNetCoreInstrumentation()
-            .AddHttpClientInstrumentation()
-            .AddEntityFrameworkCoreInstrumentation();
+//        //metrics.AddOtlpExporter(x=>x.Endpoint = new Uri("http://aspire.dashboard:18889"));
+//        metrics.AddOtlpExporter()
+//        .AddPrometheusExporter();
+//    })
+//    .WithTracing( tracing =>
+//    {
+//        tracing
+//            .AddAspNetCoreInstrumentation()
+//            .AddHttpClientInstrumentation()
+//            .AddEntityFrameworkCoreInstrumentation();
 
-        tracing.AddOtlpExporter();
-    });
+//        tracing.AddOtlpExporter();
+//    });
 
-builder.Logging.AddOpenTelemetry(logging =>
-{
-    logging.IncludeFormattedMessage = true;
-    logging.AddOtlpExporter();
-});
+//builder.Logging.AddOpenTelemetry(logging =>
+//{
+//    logging.IncludeFormattedMessage = true;
+//    logging.AddOtlpExporter();
+//});
 
-builder.Services.AddMediatR(x=>
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddMediatR(x =>
 {
     x.RegisterServicesFromAssembly(typeof(SNET.Framework.Features.AssemblyReference).Assembly);
 });
@@ -80,6 +80,8 @@ builder.Services.AddScoped<IEmailNotifications, SmtpNotifications>();
 
 var app = builder.Build();
 
+app.MapDefaultEndpoints();
+
 app.UseOpenApi();
 app.UseSwaggerUi(settings => { settings.Path = "/docs"; });
 app.UseReDoc(settings =>
@@ -89,7 +91,7 @@ app.UseReDoc(settings =>
 });
 
 app.MapCarter();
-app.UseOpenTelemetryPrometheusScrapingEndpoint();
+//app.UseOpenTelemetryPrometheusScrapingEndpoint();
 app.MapGet("/", (ILogger<Program> logger) =>
 {
     CountHomeRequest.Counter.Add(1,
