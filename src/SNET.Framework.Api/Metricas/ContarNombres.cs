@@ -8,5 +8,5 @@ public static class ContarNombres
 
     public static Meter Metrica = new Meter(ServiceName);
 
-    public static Counter<int> Contar = Metrica.CreateCounter<int>("TotalNombre");
+    public static Counter<int> Contar = Metrica.CreateCounter<int>("tota.nombres");
 }
