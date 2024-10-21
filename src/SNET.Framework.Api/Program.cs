@@ -1,7 +1,12 @@
 using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using SNET.Framework.Api.DependencyConfig;
+using SNET.Framework.Api.Metricas;
 using SNET.Framework.Domain.Notifications.Email;
 using SNET.Framework.Infrastructure.Notifications.Email;
 using SNET.Framework.Persistence;
@@ -11,8 +16,33 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCarter();
 
 builder.AddRepositories();
-builder.AddLogger();
+//builder.AddLogger();
 builder.AddEmailSettings();
+
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resuorse =>
+    {
+        resuorse.AddService("FrameworkApi");
+    })
+    .WithMetrics(metrics =>
+    {
+        metrics
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+
+        metrics.AddOtlpExporter();
+    })
+    .WithTracing(tracing =>
+    {
+        tracing
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddEntityFrameworkCoreInstrumentation();
+
+        tracing.AddOtlpExporter();
+    });
+
+    builder.Logging.AddOpenTelemetry(loggin => loggin.AddOtlpExporter());
 
 builder.Services.AddMediatR(x=>
 {
@@ -47,6 +77,11 @@ app.UseReDoc(settings =>
 
 app.MapCarter();
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/{name}", (ILogger<Program> logger, string name) =>
+{
+    ContarNombres.Contar.Add(1, new KeyValuePair<string, object>("nombre", name));
+    logger.LogInformation("Su nombre es {name}", name);
+    return name;
+});
 
 app.Run();

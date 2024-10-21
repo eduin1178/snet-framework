@@ -1,0 +1,6 @@
+services:
+  snet.framework.api:
+    image: ${DOCKER_REGISTRY-}snetframeworkapi
+    build:
+      context: .
+      dockerfile: src/SNET.Framework.Api/Dockerfile
