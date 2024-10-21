@@ -1,7 +1,12 @@
 using Carter;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using SNET.Framework.Api.DependencyConfig;
+using SNET.Framework.Api.Metrics;
 using SNET.Framework.Domain.Notifications.Email;
 using SNET.Framework.Infrastructure.Notifications.Email;
 using SNET.Framework.Persistence;
@@ -11,8 +16,46 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCarter();
 
 builder.AddRepositories();
-builder.AddLogger();
+//builder.AddLogger();
 builder.AddEmailSettings();
+
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resources =>
+    {
+        resources.AddService(builder.Configuration["OpenTelemetry:ServiceName"]);
+    })
+    .WithMetrics(metrics=>
+    {
+        //metrics.AddMeter(
+        //    "Microsft.AspNetCore.Hosting",
+        //    "Microsoft.AspNetCore.Server.Kestrel",
+        //    "System.Net.Http");
+
+        metrics
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+
+        metrics.AddMeter(CountHomeRequest.Metrica.Name);
+
+        //metrics.AddOtlpExporter(x=>x.Endpoint = new Uri("http://aspire.dashboard:18889"));
+        metrics.AddOtlpExporter()
+        .AddPrometheusExporter();
+    })
+    .WithTracing( tracing =>
+    {
+        tracing
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddEntityFrameworkCoreInstrumentation();
+
+        tracing.AddOtlpExporter();
+    });
+
+builder.Logging.AddOpenTelemetry(logging =>
+{
+    logging.IncludeFormattedMessage = true;
+    logging.AddOtlpExporter();
+});
 
 builder.Services.AddMediatR(x=>
 {
@@ -46,7 +89,14 @@ app.UseReDoc(settings =>
 });
 
 app.MapCarter();
-
-app.MapGet("/", () => "Hello World!");
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
+app.MapGet("/", (ILogger<Program> logger) =>
+{
+    CountHomeRequest.Counter.Add(1,
+        new KeyValuePair<string, object>("date-time", DateTime.Now.Second),
+        new KeyValuePair<string, object>("date-time2", DateTime.Now.Minute));
+    logger.LogInformation("Pagina inicial. {mensaje}", "hola mundo");
+    return "Hello World!";
+});
 
 app.Run();

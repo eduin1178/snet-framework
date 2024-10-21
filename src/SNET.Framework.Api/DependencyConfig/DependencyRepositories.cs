@@ -22,11 +22,11 @@ namespace SNET.Framework.Api.DependencyConfig
 
             builder.Host.UseSerilog();
 
-            Log.Logger = new LoggerConfiguration()
-               .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-               .Enrich.FromLogContext()
-               .WriteTo.Console()
-               .CreateLogger();
+            //Log.Logger = new LoggerConfiguration()
+            //   .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            //   .Enrich.FromLogContext()
+            //   .WriteTo.Console()
+            //   .CreateLogger();
         }
 
         public static void AddEmailSettings(this WebApplicationBuilder builder)
