@@ -6,13 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.10.0" />
-    <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+    <Compile Remove="Users\Queries\**" />
+    <EmbeddedResource Remove="Users\Queries\**" />
+    <None Remove="Users\Queries\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Users\Queries\" />
+    <PackageReference Include="FluentValidation" Version="11.10.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,8 @@
 using Carter;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -10,6 +12,7 @@ using SNET.Framework.Api.Metricas;
 using SNET.Framework.Domain.Notifications.Email;
 using SNET.Framework.Infrastructure.Notifications.Email;
 using SNET.Framework.Persistence;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,6 +68,30 @@ builder.Services.AddValidatorsFromAssembly(typeof(SNET.Framework.Features.Assemb
 
 builder.Services.AddScoped<IEmailNotifications, SmtpNotifications>();
 
+// Optener JwtSettings desde appsettings.json
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+
+// Congiguración del servicio de autenticación JWT
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
+    };
+});
+
+
 var app = builder.Build();
 
 app.UseOpenApi();
@@ -74,6 +101,9 @@ app.UseReDoc(settings =>
     settings.Path = "/redoc";
     settings.DocumentPath = "/swagger/v1/swagger.json";
 });
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapCarter();
 
