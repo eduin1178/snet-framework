@@ -5,8 +5,7 @@
 <h1>Counter</h1>
 
 <p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<RadzenButton class="rz-border-radius-10" Click="@IncrementCount" Text="Click me"></RadzenButton>
 
 @code {
     private int currentCount = 0;

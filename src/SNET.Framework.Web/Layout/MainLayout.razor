@@ -1,19 +1,51 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+<RadzenLayout>
+    <RadzenHeader>
+        <RadzenStack Orientation="Orientation.Horizontal" JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" Gap="0">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+                <RadzenSidebarToggle Click="@(() => sidebar1Expanded = !sidebar1Expanded)" />
+                <RadzenLabel Text="SNET Framework" />
+            </RadzenStack>
+            <div class="rz-text-align-center">
+                <RadzenButton Icon="notifications" class="rz-border-radius-10" Size="ButtonSize.Large" Variant="Variant.Text" ButtonStyle="ButtonStyle.Light" />
+                <RadzenProfileMenu>
+                    <Template>
+                        <RadzenGravatar Email="user@example.com">
+                        </RadzenGravatar>
+                    </Template>
+                    <ChildContent>
+                        <RadzenProfileMenuItem Text="Perfil" Path="buttons" Icon="account_circle"></RadzenProfileMenuItem>
+                        <RadzenProfileMenuItem Text="Cerrar sesión" Path="menu" Icon="line_weight"></RadzenProfileMenuItem>
+                    </ChildContent>
+                </RadzenProfileMenu>
+            </div>
+        </RadzenStack>
+    </RadzenHeader>
+    <RadzenSidebar @bind-Expanded="@sidebar1Expanded">
+        <RadzenPanelMenu>
+            <RadzenPanelMenuItem Path="/" Text="Home" Icon="home" />
+            <RadzenPanelMenuItem Path="/counter" Text="Counter" Icon="account_box" />
+            <RadzenPanelMenuItem Text="Group" Icon="auto_awesome">
+                <RadzenPanelMenuItem Path="/weather" Text="Weather" Icon="color_lens" />
+            </RadzenPanelMenuItem>
+        </RadzenPanelMenu>
+        <div class="rz-p-4">
+            Sidebar
         </div>
-
-        <article class="content px-4">
+    </RadzenSidebar>
+    <RadzenBody>
+        <div class="rz-p-4">
             @Body
-        </article>
-    </main>
-</div>
+        </div>
+    </RadzenBody>
+    <RadzenFooter>
+        Footer
+    </RadzenFooter>
+</RadzenLayout>
 
 <RadzenComponents />
+
+@code {
+    bool sidebar1Expanded = true;
+}
 
