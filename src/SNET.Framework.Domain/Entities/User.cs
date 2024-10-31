@@ -70,7 +70,6 @@ namespace SNET.Framework.Domain.Entities
         public void StatusChange(int newStatus)
         {
             StatusId = newStatus;
-            //AddDomainEvent(AddDomainEvent(new UserStatusChangedDomainEvent(Id, StatusId, newStatus));
         }
 
         public void AssignRole(Guid roleId)
@@ -88,5 +87,18 @@ namespace SNET.Framework.Domain.Entities
             var role = Roles.FirstOrDefault(x => x.RoleId == roleId);
             Roles.Remove(role);
         }
+
+        public bool PasswordMatch(string password)
+        {
+            return this.PasswordHash == password.EncryptPassword();
+
+        }
+
+        public void Login()
+        {
+            AddDomainEvent(new UserLoginDomainEvent(Guid.NewGuid(), this));
+        }
+
+
     }
 }

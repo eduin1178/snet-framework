@@ -21,6 +21,7 @@ builder.Services.AddCarter();
 builder.AddRepositories();
 //builder.AddLogger();
 builder.AddEmailSettings();
+builder.AddAutenticationServices();
 
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resuorse =>

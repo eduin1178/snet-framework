@@ -33,7 +33,7 @@ public class AssignRoleToUserRequestHandler : IRequestHandler<AssignRoleToUserCo
 
             user.AssignRole(request.RoleId);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
 
         }

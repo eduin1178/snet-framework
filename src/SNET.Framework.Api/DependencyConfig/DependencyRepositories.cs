@@ -1,8 +1,10 @@
 ﻿using Serilog;
 using Serilog.Events;
+using SNET.Framework.Domain.Autentications;
 using SNET.Framework.Domain.Notifications.Email;
 using SNET.Framework.Domain.Repositories;
 using SNET.Framework.Domain.UnitOfWork;
+using SNET.Framework.Infrastructure.Autentications;
 using SNET.Framework.Persistence.Repositories;
 using SNET.Framework.Persistence.UnitOfWork;
 
@@ -34,6 +36,10 @@ namespace SNET.Framework.Api.DependencyConfig
             var emailSettings = new EmailNotificationSettings();
             builder.Configuration.Bind("EmailNotificationSettings", emailSettings);
             builder.Services.AddSingleton(emailSettings);
+        }
+
+        public static void AddAutenticationServices(this WebApplicationBuilder builder) {
+            builder.Services.AddScoped<IManagerToken, ManagerToken>();
         }
     }
 }
