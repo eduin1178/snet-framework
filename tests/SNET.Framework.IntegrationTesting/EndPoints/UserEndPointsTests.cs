@@ -45,9 +45,9 @@ public class UserEndPointsTests : IClassFixture<CustomWebApplicationFactory<Prog
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
         var createdId = await response.Content.ReadFromJsonAsync<Result>();
-        var result = Result.Success("Usuario creado correctamente");
 
-        Assert.NotEqual(result, createdId);
+        Assert.NotNull(createdId);
+        Assert.Equal("Usuario creado correctamente", createdId.Message);
     }
 
 }
