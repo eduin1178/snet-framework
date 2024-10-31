@@ -32,7 +32,6 @@ public class CreateUserCommandHandlerTests
     public async Task Handle_ValidCommand_ShouldAddUserAndCommit()
     {
         // Arrange
-        var resultResponse = Result.Success("Usuario creado correctamente");
         var validResult = new ValidationResult();
         
         var command = new CreateUserCommand()
