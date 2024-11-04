@@ -10,33 +10,21 @@ public class AssignRoleToUserRequestHandler : IRequestHandler<AssignRoleToUserCo
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMediator _mediator;
-    private readonly IValidator<CreateUserCommand> _validator;
+
     public AssignRoleToUserRequestHandler(
         IUserRepository repository,
-        IUnitOfWork unitOfWork,
-        IValidator<CreateUserCommand> validator,
-        IMediator mediator)
+        IUnitOfWork unitOfWork)
     {
         _userRepository = repository;
         _unitOfWork = unitOfWork;
-        _validator = validator;
-        _mediator = mediator;
     }
 
     public async Task<Result> Handle(AssignRoleToUserCommand request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var user = await _userRepository
-                .GetByIdWithRoles(request.UserId);
+        var user = await _userRepository
+            .GetByIdWithRoles(request.UserId);
 
-            user.AssignRole(request.RoleId);
-        }
-        catch (Exception)
-        {
-
-        }
+        user.AssignRole(request.RoleId);
 
         await _unitOfWork.SaveChangesAsync();
 
