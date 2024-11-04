@@ -11,18 +11,15 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
 {
     private readonly IUserRepository _userRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMediator _mediator;
     private readonly IValidator<CreateUserCommand> _validator;
     public CreateUserCommandHandler(
         IUserRepository repository, 
         IUnitOfWork unitOfWork,
-        IValidator<CreateUserCommand> validator, 
-        IMediator mediator)
+        IValidator<CreateUserCommand> validator)
     {
         _userRepository = repository;
         _unitOfWork = unitOfWork;
         _validator = validator;
-        _mediator = mediator;
     }
 
     public async Task<Result> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -43,6 +40,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
         _userRepository.Add(user);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
         return Result.Success("Usuario creado correctamente");
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Text;
+using System.Text.Json.Serialization;
 
 namespace SNET.Framework.Domain.Shared
 {
     public class Result
     {
+        [JsonConstructor]
         protected internal Result(bool isSuccess, string message)
         {
             IsSuccess = isSuccess;

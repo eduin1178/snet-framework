@@ -11,6 +11,7 @@ using SNET.Framework.Domain.Notifications.Email;
 using SNET.Framework.Infrastructure.Notifications.Email;
 using SNET.Framework.Persistence;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCarter();
@@ -42,9 +43,9 @@ builder.Services.AddOpenTelemetry()
         tracing.AddOtlpExporter();
     });
 
-    builder.Logging.AddOpenTelemetry(loggin => loggin.AddOtlpExporter());
+builder.Logging.AddOpenTelemetry(loggin => loggin.AddOtlpExporter());
 
-builder.Services.AddMediatR(x=>
+builder.Services.AddMediatR(x =>
 {
     x.RegisterServicesFromAssembly(typeof(SNET.Framework.Features.AssemblyReference).Assembly);
 });
@@ -85,3 +86,7 @@ app.MapGet("/{name}", (ILogger<Program> logger, string name) =>
 });
 
 app.Run();
+
+public partial class Program
+{ }
+
