@@ -11,26 +11,6 @@ namespace SNET.Framework.Api.EndPoints
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-
-
-            app.MapPost("Login", async (LoginUserCommand command, IMediator mediator) =>
-            {
-                var res = await mediator.Send(command);
-
-                if (res.IsSuccess)
-                {
-                    return Results.Ok(res);
-                }
-                else
-                {
-                    return Results.BadRequest(res);
-                }
-            })
-            .WithName("Login")
-            .WithTags("Users")
-            .Produces<Result>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest);
-
             var usersRoute = app.MapGroup("Users").RequireAuthorization();
 
             usersRoute.MapPost("/", async (CreateUserCommand command, IMediator mediator) =>

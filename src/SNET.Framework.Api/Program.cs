@@ -62,35 +62,15 @@ builder.Services.AddOpenApiDocument(c =>
 
 builder.Services.AddDbContext<ApiDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ApiDbContext"));
+    var connectionString = builder.Configuration.GetConnectionString("ApiDbContext");
+    options.UseSqlServer(connectionString);
 }, ServiceLifetime.Scoped);
 
 builder.Services.AddValidatorsFromAssembly(typeof(SNET.Framework.Features.AssemblyReference).Assembly, ServiceLifetime.Scoped);
 
 builder.Services.AddScoped<IEmailNotifications, SmtpNotifications>();
 
-// Optener JwtSettings desde appsettings.json
-var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 
-// Congiguración del servicio de autenticación JWT
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtSettings["Issuer"],
-        ValidAudience = jwtSettings["Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]))
-    };
-});
 
 
 var app = builder.Build();

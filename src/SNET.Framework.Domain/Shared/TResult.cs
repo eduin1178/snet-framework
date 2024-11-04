@@ -1,14 +1,18 @@
 ﻿namespace SNET.Framework.Domain.Shared;
 
-public class Result<TValue> : Result
+public class Result<T> : Result
 {
-    private readonly TValue _value;
+    public T Data { get; private set; }
 
-    protected internal Result(TValue value, bool isSuccess, Error error)
+    private Result(T data, bool isSuccess, Error error)
         : base(isSuccess, error) =>
-        _value = value;
-    protected internal Result(TValue value, bool isSuccess, string message)
+        Data = data;
+    private Result(T data, bool isSuccess, string message)
         : base(isSuccess, message) =>
-        _value = value;
+        Data = data;
 
+
+    public static Result Success(T data, string message) => new Result<T>(data, true, message);
+
+    public static Result Failure(T data, Error error) => new Result<T>(data, false, error);
 }

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using SNET.Framework.Domain.Autentications;
-using SNET.Framework.Domain.Entities;
+using SNET.Framework.Domain.Autentications.Jwt;
 using SNET.Framework.Domain.Repositories;
 using SNET.Framework.Domain.Shared;
 using SNET.Framework.Domain.UnitOfWork;
@@ -11,7 +11,6 @@ namespace SNET.Framework.Features.Users.Commands;
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IMediator _mediator;
     private readonly IManagerToken _managerToken;
     private readonly IValidator<LoginUserCommand> _validator;
@@ -23,7 +22,6 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result>
         IManagerToken managerToken)
     {
         _userRepository = repository;
-        _unitOfWork = unitOfWork;
         _validator = validator;
         _mediator = mediator;
         this._managerToken = managerToken;
@@ -33,24 +31,28 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result>
     {
         var result = _validator.Validate(request);
         if (!result.IsValid)
-        {            
-            return Result.Failure(new Error("LoginUser.ValidationError", "Datos no válidos"));
-        }      
+        {
+            return Result.Failure(new Error("Autentication.ValidationError", "Datos no válidos"));
+        }
 
         var user = await _userRepository.GetByEmailAsync(request.Email);
 
-        if (user == null) {
-            return Result.Failure(new Error("LoginUser.ValidationError", "Credenciales de acceso no validas, el email no existe"));
+        if (user == null)
+        {
+            return Result.Failure(new Error("Autentication.NotUserMatch", "Credenciales de acceso no validas"));
         }
 
-        if (!user.PasswordMatch(request.Password)) {
-            return Result.Failure(new Error("LoginUser.ValidationError", "Credenciales de acceso no validas, contraseña no valida"));
+       var resLogin = user.Login(request.Password);
+
+        if (resLogin.IsSuccess)
+        {
+             var token = _managerToken.GenerateToken(user);
+            return Result<TokenModel>.Success(token, "Autenticado correctamente");
+        } 
+        else
+        {
+            return Result.Failure(new Error("Autentication.errorToken", "Error al generar el token"));
         }
 
-        user.Login();
-
-        var token = _managerToken.GenerateToken(user);
-
-        return Result.Success(token, "Usuario creado correctamente");
     }
 }
