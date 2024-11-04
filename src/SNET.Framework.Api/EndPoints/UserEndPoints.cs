@@ -11,7 +11,7 @@ namespace SNET.Framework.Api.EndPoints
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            var usersRoute = app.MapGroup("Users").RequireAuthorization();
+            var usersRoute = app.MapGroup("Users");
 
             usersRoute.MapPost("/", async (CreateUserCommand command, IMediator mediator) =>
             {
@@ -48,7 +48,8 @@ namespace SNET.Framework.Api.EndPoints
             .WithName("AssignRoleToUser")
             .WithTags("Users")
             .Produces<Result>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest);
+            .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization();
 
 
             usersRoute.MapDelete("/Role", async (Guid userId, Guid roleId, IMediator mediator) =>
@@ -68,7 +69,8 @@ namespace SNET.Framework.Api.EndPoints
             .WithName("RemoveRoleToUser")
             .WithTags("Users")
             .Produces<Result>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest);
+            .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization();
         }
     }
 }
