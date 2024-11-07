@@ -16,6 +16,11 @@ namespace SNET.Framework.Persistence.Repositories
         {
         }
 
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await  _context.Set<User>().FirstOrDefaultAsync(x => x.Email == email);
+        }
+
         public async Task<List<User>> GetAllAsync()
         {
            return await _context.Set<User>().ToListAsync();

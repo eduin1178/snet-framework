@@ -1,6 +1,7 @@
 ﻿using SNET.Framework.Domain.DomainEvents.Users;
 using SNET.Framework.Domain.Extensions;
 using SNET.Framework.Domain.Primitives;
+using SNET.Framework.Domain.Shared;
 
 namespace SNET.Framework.Domain.Entities
 {
@@ -70,7 +71,6 @@ namespace SNET.Framework.Domain.Entities
         public void StatusChange(int newStatus)
         {
             StatusId = newStatus;
-            //AddDomainEvent(AddDomainEvent(new UserStatusChangedDomainEvent(Id, StatusId, newStatus));
         }
 
         public void AssignRole(Guid roleId)
@@ -88,5 +88,26 @@ namespace SNET.Framework.Domain.Entities
             var role = Roles.FirstOrDefault(x => x.RoleId == roleId);
             Roles.Remove(role);
         }
+
+        public Result Login(string password)
+        {
+            var isPasswordMatch = this.PasswordHash == password.EncryptPassword();
+
+            if (!isPasswordMatch) { 
+                return Result.Failure(new Error("Autentication.NotMatchPassword", "Credenciales de acceso no validas"));
+            }
+
+            var isActive = (StatusUser)this.StatusId == StatusUser.Active;
+
+            if (!isActive) { 
+                return Result.Failure(new Error("Autentication.NotActive", "Usuario inactivo o bloqueado"));
+            }
+            
+            AddDomainEvent(new UserLoginDomainEvent(Guid.NewGuid(), this));
+
+            return Result.Success( "Autenticado correctamente");
+        }
+
+
     }
 }

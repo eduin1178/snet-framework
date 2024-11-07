@@ -1,6 +1,8 @@
 using Carter;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -10,6 +12,7 @@ using SNET.Framework.Api.Metricas;
 using SNET.Framework.Domain.Notifications.Email;
 using SNET.Framework.Infrastructure.Notifications.Email;
 using SNET.Framework.Persistence;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +22,7 @@ builder.Services.AddCarter();
 builder.AddRepositories();
 //builder.AddLogger();
 builder.AddEmailSettings();
+builder.AddAutenticationServices();
 
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resuorse =>
@@ -59,12 +63,16 @@ builder.Services.AddOpenApiDocument(c =>
 
 builder.Services.AddDbContext<ApiDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ApiDbContext"));
+    var connectionString = builder.Configuration.GetConnectionString("ApiDbContext");
+    options.UseSqlServer(connectionString);
 }, ServiceLifetime.Scoped);
 
 builder.Services.AddValidatorsFromAssembly(typeof(SNET.Framework.Features.AssemblyReference).Assembly, ServiceLifetime.Scoped);
 
 builder.Services.AddScoped<IEmailNotifications, SmtpNotifications>();
+
+
+
 
 var app = builder.Build();
 
@@ -75,6 +83,9 @@ app.UseReDoc(settings =>
     settings.Path = "/redoc";
     settings.DocumentPath = "/swagger/v1/swagger.json";
 });
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapCarter();
 

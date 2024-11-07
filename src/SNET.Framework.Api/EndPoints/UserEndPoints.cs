@@ -11,7 +11,9 @@ namespace SNET.Framework.Api.EndPoints
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("Users", async (CreateUserCommand command, IMediator mediator) =>
+            var usersRoute = app.MapGroup("Users");
+
+            usersRoute.MapPost("/", async (CreateUserCommand command, IMediator mediator) =>
             {
                 var res = await mediator.Send(command);
 
@@ -30,7 +32,7 @@ namespace SNET.Framework.Api.EndPoints
             .Produces(StatusCodes.Status400BadRequest);
 
 
-            app.MapPost("Users/Role", async (AssignRoleToUserCommand command, IMediator mediator) =>
+            usersRoute.MapPost("/Role", async (AssignRoleToUserCommand command, IMediator mediator) =>
             {
                 var res = await mediator.Send(command);
 
@@ -46,10 +48,11 @@ namespace SNET.Framework.Api.EndPoints
             .WithName("AssignRoleToUser")
             .WithTags("Users")
             .Produces<Result>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest);
+            .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization();
 
 
-            app.MapDelete("Users/Role", async (Guid userId, Guid roleId, IMediator mediator) =>
+            usersRoute.MapDelete("/Role", async (Guid userId, Guid roleId, IMediator mediator) =>
             {
                 var coomand = new RemoveRoleToUserCommand(userId, roleId);
                 var res = await mediator.Send(coomand);
@@ -66,7 +69,8 @@ namespace SNET.Framework.Api.EndPoints
             .WithName("RemoveRoleToUser")
             .WithTags("Users")
             .Produces<Result>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status400BadRequest);
+            .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization();
         }
     }
 }
