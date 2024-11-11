@@ -97,7 +97,7 @@ namespace SNET.Framework.Domain.Entities
                 return Result.Failure(new Error("Autentication.NotMatchPassword", "Credenciales de acceso no validas"));
             }
 
-            var isActive = (StatusUser)this.StatusId == StatusUser.Active;
+            var isActive = (UserStatus)this.StatusId == UserStatus.Active;
 
             if (!isActive) { 
                 return Result.Failure(new Error("Autentication.NotActive", "Usuario inactivo o bloqueado"));

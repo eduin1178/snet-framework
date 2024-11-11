@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace SNET.Framework.Domain.Autentications.Jwt;
 
-public record TokenModel(string Token, DateTime Expire, Dictionary<string, string> Claims);
+public record TokenModel(string Token, DateTime Expires, Dictionary<string, string> Claims);
 

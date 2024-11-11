@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace SNET.Framework.Domain;
 
-public enum StatusUser
+public enum UserStatus
 {
     Active = 1,
     Inactive = 2,
     Locked = 3
 }
 
-public enum RoleUser
+public enum UserRole
 {
     Guest = 1,
     Admin = 2,
