@@ -1,14 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SNET.Framework.Domain.Autentications;
-using SNET.Framework.Domain.Autentications.Jwt;
+using SNET.Framework.Domain.Authentications;
+using SNET.Framework.Domain.Authentications.Jwt;
 using SNET.Framework.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Linq;
 
-namespace SNET.Framework.Infrastructure.Autentications;
+namespace SNET.Framework.Infrastructure.Authentications;
 
 public class ManagerToken : IManagerToken
 {

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
-using SNET.Framework.Domain.Autentications;
-using SNET.Framework.Domain.Autentications.Jwt;
+using SNET.Framework.Domain.Authentications;
+using SNET.Framework.Domain.Authentications.Jwt;
 using SNET.Framework.Domain.Repositories;
 using SNET.Framework.Domain.Shared;
 using SNET.Framework.Domain.UnitOfWork;
