@@ -2,11 +2,11 @@
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
-using SNET.Framework.Domain.Autentications;
+using SNET.Framework.Domain.Authentications;
 using SNET.Framework.Domain.Notifications.Email;
 using SNET.Framework.Domain.Repositories;
 using SNET.Framework.Domain.UnitOfWork;
-using SNET.Framework.Infrastructure.Autentications;
+using SNET.Framework.Infrastructure.Authentications;
 using SNET.Framework.Persistence.Repositories;
 using SNET.Framework.Persistence.UnitOfWork;
 using System.Text;

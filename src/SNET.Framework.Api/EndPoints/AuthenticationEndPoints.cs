@@ -5,7 +5,7 @@ using SNET.Framework.Features.Users.Commands;
 
 namespace SNET.Framework.Api.EndPoints
 {
-    public class AutenticationEdnPoints : ICarterModule
+    public class AuthenticationEndPoints : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
